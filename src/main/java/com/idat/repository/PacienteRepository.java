@@ -13,14 +13,14 @@ import com.idat.model.Paciente;
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	long count();
 	
-	@Query(value = """
-		    SELECT DATE(u.fecha_registro), COUNT(*)
-		    FROM pacientes p
-		    JOIN usuarios u ON p.id_usuario = u.id_usuario
-		    WHERE u.fecha_registro BETWEEN :inicio AND :fin
-		    GROUP BY DATE(u.fecha_registro)
-		    ORDER BY DATE(u.fecha_registro)
-		""", nativeQuery = true)
+	@Query("""
+		    SELECT FUNCTION('DATE', u.fechaRegistro), COUNT(p)
+		    FROM Paciente p
+		    JOIN p.usuario u
+		    WHERE u.fechaRegistro BETWEEN :inicio AND :fin
+		    GROUP BY FUNCTION('DATE', u.fechaRegistro)
+		    ORDER BY FUNCTION('DATE', u.fechaRegistro)
+		""")
 		List<Object[]> contarPacientesPorPeriodo(
 		    @Param("inicio") LocalDateTime inicio,
 		    @Param("fin") LocalDateTime fin
