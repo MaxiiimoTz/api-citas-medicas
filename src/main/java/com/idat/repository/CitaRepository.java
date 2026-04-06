@@ -80,14 +80,14 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
 		
 		// Evitar citas duplicadas 
 		@Query(value = """
-		    SELECT * FROM CITAS
-		    WHERE id_medico = :idMedico
-		    AND fecha = :fecha
-		    AND CONVERT(VARCHAR(5), hora, 108) = CONVERT(VARCHAR(5), :hora, 108)
-		""", nativeQuery = true)
-		List<Cita> existeCita(
-		    @Param("idMedico") Integer idMedico,
-		    @Param("fecha") LocalDate fecha,
-		    @Param("hora") LocalTime hora
+			    SELECT * FROM CITAS
+			    WHERE id_medico = :idMedico
+			    AND fecha = :fecha
+			    AND TIME(hora) = TIME(:hora)
+			""", nativeQuery = true)
+			List<Cita> existeCita(
+			    @Param("idMedico") Integer idMedico,
+			    @Param("fecha") LocalDate fecha,
+			    @Param("hora") LocalTime hora
 		);
 }
