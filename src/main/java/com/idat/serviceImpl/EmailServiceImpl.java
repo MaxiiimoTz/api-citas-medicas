@@ -1,34 +1,35 @@
 package com.idat.serviceImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
 import com.idat.service.EmailService;
+
+import kong.unirest.Unirest;
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
-
     @Override
     public void enviarCredenciales(String destino, String email, String password) {
 
-        SimpleMailMessage mensaje = new SimpleMailMessage();
+        try {
 
-        mensaje.setTo(destino);
-        mensaje.setSubject("Credenciales de acceso");
+            Unirest.post("https://api.resend.com/emails")
+                .header("Authorization", "Bearer " + System.getenv("RESEND_API_KEY"))
+                .header("Content-Type", "application/json")
+                .body("{"
+                    + "\"from\":\"onboarding@resend.dev\","
+                    + "\"to\":\"" + destino + "\","
+                    + "\"subject\":\"Credenciales de acceso\","
+                    + "\"html\":\"<h2>Bienvenido</h2>"
+                    + "<p>Usuario: " + email + "</p>"
+                    + "<p>Password: " + password + "</p>"
+                    + "<br><p>⚠️ Cambia tu contraseña al ingresar</p>\""
+                + "}")
+                .asString();
 
-        mensaje.setText(
-            "Bienvenido al sistema\n\n" +
-            "Tus credenciales son:\n" +
-            "Email: " + email + "\n" +
-            "Password: " + password + "\n\n" +
-            "⚠️ Debes cambiar tu contraseña al iniciar sesión."
-        );
-
-        mailSender.send(mensaje);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al enviar credenciales");
+        }
     }
 }
