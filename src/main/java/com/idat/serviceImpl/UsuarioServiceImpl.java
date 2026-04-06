@@ -6,7 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.idat.model.Paciente;
 import com.idat.model.Usuario;
+import com.idat.repository.PacienteRepository;
 import com.idat.repository.UsuarioRepository;
 import com.idat.service.EmailService;
 import com.idat.service.UsuarioService;
@@ -19,6 +22,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private PacienteRepository pacienteRepository;
 
     @Override
     public List<Usuario> listar() {
@@ -41,7 +47,6 @@ public class UsuarioServiceImpl implements UsuarioService {
             String email = usuario.getEmail();
             String base = email.substring(0, email.indexOf("@"));
             usuario.setPassword(base + "123");
-            
             usuario.setPasswordTemporal(true);
         }
 
@@ -86,8 +91,12 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("EMAIL_DUPLICADO");
         }
 
-        usuario.setIdUsuario(id);
-        return repository.save(usuario);
+        existente.setNombres(usuario.getNombres());
+        existente.setApellidos(usuario.getApellidos());
+        existente.setEmail(usuario.getEmail());
+        existente.setRol(usuario.getRol());
+
+        return repository.save(existente);
     }
     
     @Override
