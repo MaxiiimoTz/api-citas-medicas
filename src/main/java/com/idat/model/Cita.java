@@ -7,7 +7,7 @@ import java.time.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "CITAS")
+@Table(name = "citas")
 @Getter @Setter
 public class Cita {
 

@@ -3,7 +3,7 @@ package com.idat.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ROLES")
+@Table(name = "roles")
 public class Rol {
 
     @Id

@@ -3,7 +3,7 @@ package com.idat.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "CONSULTORIOS")
+@Table(name = "consultorios")
 public class Consultorio {
 
     @Id
