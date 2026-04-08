@@ -238,8 +238,8 @@ public class CitaServiceImpl implements CitaService {
     }
     
     @Override
-    public List<Cita> obtenerPorPaciente(Integer idPaciente) {
-        return repository.obtenerCitasPorPaciente(idPaciente);
+    public List<Cita> obtenerPorPaciente(Integer idUsuario) {
+        return repository.obtenerCitasPorPaciente(idUsuario);
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface CitaService {
     List<Cita> obtenerPorMedico(Integer idMedico);
     List<Map<String, Object>> reporteCitasPorPeriodo(LocalDate inicio, LocalDate fin);
     List<Map<String, Object>> reporteCitasPorMedico();
-    List<Cita> obtenerPorPaciente(Integer idPaciente);
+    List<Cita> obtenerPorPaciente(Integer idUsuario);
     Cita guardar(Cita cita);
     Cita obtenerPorId(Integer id);
     void eliminar(Integer id);
